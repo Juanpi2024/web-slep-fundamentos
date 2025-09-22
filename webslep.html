@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Fundamentos del MDC — Visor Web</title>
+  <meta name="description" content="Documento profesional con visor PDF integrado, navegación tipo web y opciones de impresión/descarga." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#0b1220;         /* fondo oscuro elegante */
+      --card:#121a2b;       /* tarjetas */
+      --muted:#2a3550;      /* bordes/contornos */
+      --accent:#6ee7b7;     /* verde menta */
+      --accent-2:#60a5fa;   /* azul suave */
+      --text:#eaf0ff;       /* texto principal */
+      --text-dim:#b6c2e2;   /* texto secundario */
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;
+      color:var(--text); background:linear-gradient(180deg,#0b1220 0%, #0e1526 100%);
+    }
+    .wrap{display:grid; grid-template-columns: 300px 1fr; height:100vh;}
+    aside{background:linear-gradient(180deg,rgba(255,255,255,0.03),rgba(255,255,255,0.02)); border-right:1px solid var(--muted); padding:20px; overflow:auto}
+    main{display:flex; flex-direction:column; min-width:0}
+    header{position:sticky; top:0; z-index:10; background:rgba(11,18,32,0.7); backdrop-filter: blur(6px); border-bottom:1px solid var(--muted)}
+    .h-row{display:flex; align-items:center; justify-content:space-between; gap:12px; padding:12px 16px}
+    .brand{display:flex; align-items:center; gap:10px}
+    .logo{width:34px; height:34px; border-radius:10px; background:linear-gradient(135deg,var(--accent),var(--accent-2)); box-shadow: 0 8px 30px rgba(96,165,250,.35)}
+    h1{font-size:16px; margin:0; letter-spacing:.2px}
+    .controls{display:flex; align-items:center; gap:8px}
+    button, .btn{appearance:none; border:1px solid var(--muted); background:var(--card); color:var(--text); padding:8px 12px; border-radius:10px; cursor:pointer; font-weight:600; transition:.2s}
+    button:hover,.btn:hover{border-color:var(--accent); box-shadow:0 0 0 3px rgba(110,231,183,.12)}
+    .btnAccent{background:linear-gradient(135deg,var(--accent-2),var(--accent)); color:#051023; border:none}
+    .btnAccent:hover{opacity:.95}
+    .toc h3{margin:0 0 12px 0; font-size:14px; color:var(--text-dim); font-weight:600}
+    .toc ul{list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:6px}
+    .toc a{display:flex; gap:8px; align-items:center; padding:8px 10px; text-decoration:none; color:var(--text); border:1px solid transparent; border-radius:8px}
+    .toc a:hover{border-color:var(--muted); background:rgba(255,255,255,0.02)}
+    .toc small{color:var(--text-dim)}
+    .callout{margin-top:14px; padding:10px 12px; border:1px dashed var(--muted); border-radius:10px; color:var(--text-dim); font-size:13px}
+    .kbd{border:1px solid var(--muted); border-bottom-width:2px; padding:.5px 6px; border-radius:6px; background:#0f1730; color:var(--text)}
+    .viewer{flex:1; min-height:0;}
+    iframe, object{width:100%; height:calc(100vh - 64px); border:none; background:#0a0f1c}
+    .subtle{color:var(--text-dim); font-size:12px}
+    .pill{display:inline-block; font-size:11px; padding:4px 8px; border-radius:999px; background:rgba(96,165,250,.15); color:#bfe1ff; border:1px solid rgba(96,165,250,.35)}
+    .search{display:flex; gap:8px; margin-top:10px}
+    .search input{flex:1; padding:9px 10px; border-radius:10px; border:1px solid var(--muted); background:#0f1730; color:var(--text)}
+    @media (max-width: 940px){
+      .wrap{grid-template-columns: 1fr}
+      aside{position:fixed; inset:64px 0 auto 0; height:auto; max-height:55vh; border-right:none; border-bottom:1px solid var(--muted); display:none}
+      aside.open{display:block}
+      .h-row{gap:6px}
+      .controls{gap:6px}
+      .hideMobile{display:none}
+      iframe, object{height:calc(100vh - 64px - 1px)}
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <aside id="sidebar">
+      <div class="toc">
+        <h3>Navegación del documento</h3>
+        <ul>
+          <li><a href="#" data-page="1">🏠 Portada <small>(p.1)</small></a></li>
+          <li><a href="#" data-page="5">📜 1. Antecedentes <small>(p.5)</small></a></li>
+          <li><a href="#" data-page="11">🔎 2. Introducción <small>(p.11)</small></a></li>
+          <li><a href="#" data-page="15">🧠 3. Desarrollo de capacidades: concepto <small>(p.15)</small></a></li>
+          <li><a href="#" data-page="19">🛠️ 4. ¿Cómo se desarrollan? <small>(p.19)</small></a></li>
+          <li><a href="#" data-page="23">🏫 5. Capacidades basales <small>(p.23)</small></a></li>
+          <li><a href="#" data-page="45">🤝 6. Desarrollo & Apoyo T-P <small>(p.45)</small></a></li>
+          <li><a href="#" data-page="55">📏 Evaluación de capacidades <small>(p.55 aprox.)</small></a></li>
+          <li><a href="#" data-page="59">📚 Bibliografía <small>(p.59)</small></a></li>
+          <li><a href="#" data-page="65">📎 Anexos <small>(p.65)</small></a></li>
+        </ul>
+        <div class="callout">
+          <div><span class="pill">TIP</span> Usa <span class="kbd">Ctrl</span>+<span class="kbd">F</span> / <span class="kbd">⌘</span>+<span class="kbd">F</span> para buscar texto dentro del PDF.</div>
+        </div>
+        <div class="search">
+          <input id="searchBox" type="text" placeholder="Buscar en título/sección (no dentro del PDF)…" />
+          <button id="searchBtn">Buscar</button>
+        </div>
+        <p class="subtle" style="margin-top:8px">* Los saltos llevan a la página correspondiente dentro del visor.</p>
+      </div>
+    </aside>
+
+    <main>
+      <header>
+        <div class="h-row">
+          <div class="brand">
+            <div class="logo"></div>
+            <div>
+              <h1>Fundamentos del Modelo de Desarrollo de Capacidades (MDC) — Versión 2022</h1>
+              <div class="subtle hideMobile">Ministerio de Educación, Dirección de Educación Pública — Documento profesional con navegación tipo web</div>
+            </div>
+          </div>
+          <div class="controls">
+            <a id="btnToggleTOC" class="btn" href="#">Índice</a>
+            <a id="btnDescargar" class="btn" download>Descargar PDF</a>
+            <button class="btnAccent" id="btnImprimir">Imprimir</button>
+            <a id="btnAbrirNueva" class="btn" target="_blank" rel="noopener">Abrir en pestaña</a>
+          </div>
+        </div>
+      </header>
+
+      <section class="viewer">
+        <!--
+          📄 IMPORTANTE: Coloca el archivo PDF en la misma carpeta que este HTML
+          y nómbralo exactamente:
+              1.-Fundamentos-del-MDC-1.pdf
+          Si usas otro nombre o ruta, edita la constante PDF_SRC más abajo.
+        -->
+        <iframe id="pdfFrame" title="Visor PDF — Fundamentos del MDC" allowfullscreen></iframe>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    // ====== Configuración ======
+    const PDF_SRC = '1.-Fundamentos-del-MDC-1.pdf';
+    const DEFAULT_PARAMS = '#view=FitH&toolbar=1&navpanes=0';
+
+    // ====== Utilidades ======
+    const el = (sel) => document.querySelector(sel);
+    const iframe = el('#pdfFrame');
+    const btnDescargar = el('#btnDescargar');
+    const btnAbrirNueva = el('#btnAbrirNueva');
+    const btnImprimir = el('#btnImprimir');
+    const btnToggleTOC = el('#btnToggleTOC');
+    const sidebar = el('#sidebar');
+
+    function setSrc(page){
+      const hash = page ? `#page=${page}&view=FitH&toolbar=1` : DEFAULT_PARAMS;
+      iframe.src = `${PDF_SRC}${hash}`;
+      // Actualiza los enlaces de acción para apuntar al recurso correcto
+      btnDescargar.href = PDF_SRC;
+      btnAbrirNueva.href = `${PDF_SRC}${hash}`;
+    }
+
+    function goTo(page){ setSrc(page); }
+
+    // ====== Eventos ======
+    document.addEventListener('click', (e)=>{
+      const a = e.target.closest('a[data-page]');
+      if(a){ e.preventDefault(); goTo(a.getAttribute('data-page')); }
+    });
+
+    btnImprimir.addEventListener('click', ()=>{
+      // Abre el PDF en nueva ventana para usar la impresión nativa del visor
+      const w = window.open(`${PDF_SRC}${DEFAULT_PARAMS}`, '_blank');
+      // Algunos navegadores necesitan un pequeño retraso para garantizar carga antes de print
+      if(w){ setTimeout(()=>{ try{ w.focus(); w.print(); }catch(_){} }, 800); }
+    });
+
+    btnToggleTOC.addEventListener('click', (e)=>{
+      e.preventDefault(); sidebar.classList.toggle('open');
+    });
+
+    // Mini búsqueda local (solo filtra elementos del índice, NO busca dentro del PDF)
+    const sBox = el('#searchBox');
+    const sBtn = el('#searchBtn');
+    const tocLinks = Array.from(document.querySelectorAll('.toc ul li'));
+    function filterTOC(){
+      const q = (sBox.value||'').toLowerCase();
+      tocLinks.forEach(li=>{
+        const t = li.textContent.toLowerCase();
+        li.style.display = t.includes(q) ? '' : 'none';
+      });
+    }
+    sBtn.addEventListener('click', filterTOC);
+    sBox.addEventListener('keyup', (e)=>{ if(e.key==='Enter'){ filterTOC(); }});
+
+    // Init
+    setSrc(1);
+  </script>
+
+  <!--
+  ==============================
+  OPCIONAL: Google Apps Script
+  ==============================
+  Usa este Apps Script si quieres desplegar el visor como Web App en Google Drive, 
+  sirviendo el PDF directamente desde tu unidad. 
+
+  1) Crea un proyecto en https://script.google.com/ con dos archivos: Code.gs y Index.html
+  2) Pega el contenido en cada archivo (abajo) y reemplaza FILE_ID con el ID de tu PDF en Drive.
+  3) Publica como "Implementar como aplicación web" (quien tenga el enlace puede acceder).
+
+  ----- Code.gs -----
+  function doGet(e){
+    const t = HtmlService.createTemplateFromFile('Index');
+    t.fileId = 'REEMPLAZA_CON_FILE_ID_DEL_PDF'; // p.ej. 1AbCDeFgHiJKlMNopQrSTuvWxYz
+    return t.evaluate()
+      .setTitle('Fundamentos del MDC — Visor Web')
+      .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL); // permitir iframe
+  }
+
+  // Endpoint para servir el PDF como blob
+  function doGetPdf(e){
+    const id = e && e.parameter && e.parameter.id;
+    const file = DriveApp.getFileById(id);
+    const blob = file.getBlob();
+    return ContentService
+      .createResponseFromBlob(blob)
+      .setMimeType(ContentService.MimeType.PDF);
+  }
+
+  // Incluir archivos HTML parciales
+  function include(name){ return HtmlService.createHtmlOutputFromFile(name).getContent(); }
+
+  ----- Index.html -----
+  <!DOCTYPE html>
+  <html>
+  <head>
+    <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Fundamentos del MDC — Visor (Apps Script)</title>
+    <style>
+      body{margin:0; font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto; background:#0b1220; color:#eaf0ff}
+      header{position:sticky; top:0; padding:10px 14px; border-bottom:1px solid #2a3550; background:rgba(11,18,32,.7); backdrop-filter:blur(6px)}
+      .row{display:flex; align-items:center; gap:8px; justify-content:space-between}
+      .btn{appearance:none; border:1px solid #2a3550; background:#121a2b; color:#eaf0ff; padding:8px 12px; border-radius:10px; cursor:pointer}
+      .btn:hover{border-color:#6ee7b7}
+      iframe{width:100%; height:calc(100vh - 56px); border:0; background:#0a0f1c}
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="row">
+        <strong>Fundamentos del MDC — Visor</strong>
+        <div>
+          <a class="btn" target="_blank" href="?fn=doGetPdf&id=<?= fileId ?>">Descargar PDF</a>
+          <a class="btn" target="_blank" href="https://drive.google.com/uc?export=preview&id=<?= fileId ?>">Abrir en pestaña</a>
+        </div>
+      </div>
+    </header>
+    <iframe src="https://drive.google.com/uc?export=preview&id=<?= fileId ?>#view=FitH&toolbar=1"></iframe>
+  </body>
+  </html>
+
+  Nota: En algunos dominios Google Workspace, para permitir visualización en iframe, es necesario habilitarlo desde la consola de administración o usar el método ALLOWALL como arriba.
+  -->
+</body>
+</html>
