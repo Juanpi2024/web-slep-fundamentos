@@ -1,0 +1,1366 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Antigravity V2 — Orquesta Roja | Ecosistema de IA Soberana</title>
+  <meta name="description" content="Manifiesto Técnico V2: Ecosistema Antigravity & Orquesta Roja. La organización es la clave de la victoria. La soberanía digital es el fin.">
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  
+  <style>
+    /* ========================================
+       VARIABLES CYBERPUNK
+       ======================================== */
+    :root {
+      --neon-cyan: #00f3ff;
+      --neon-pink: #ff00ff;
+      --neon-green: #00ff41;
+      --neon-yellow: #ffee00;
+      --neon-red: #ff3131;
+      --neon-orange: #ff9100;
+      
+      --bg-dark: #0a0a0f;
+      --bg-darker: #050508;
+      --bg-panel: #12121a;
+      --bg-card: #1a1a25;
+      
+      --text-primary: #e0e0ff;
+      --text-secondary: #a0a0c0;
+      --text-dim: #606080;
+      
+      --border-glow: rgba(0, 243, 255, 0.3);
+      --glow-cyan: 0 0 10px rgba(0, 243, 255, 0.5), 0 0 20px rgba(0, 243, 255, 0.3), 0 0 30px rgba(0, 243, 255, 0.2);
+      --glow-pink: 0 0 10px rgba(255, 0, 255, 0.5), 0 0 20px rgba(255, 0, 255, 0.3);
+      --glow-green: 0 0 10px rgba(0, 255, 65, 0.5), 0 0 20px rgba(0, 255, 65, 0.3);
+      
+      --font-display: 'Orbitron', monospace;
+      --font-body: 'Rajdhani', sans-serif;
+      --font-mono: 'Share Tech Mono', monospace;
+    }
+
+    /* ========================================
+       RESET & BASE
+       ======================================== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      line-height: 1.6;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: 
+        repeating-linear-gradient(
+          0deg,
+          transparent,
+          transparent 2px,
+          rgba(0, 243, 255, 0.03) 2px,
+          rgba(0, 243, 255, 0.03) 4px
+        );
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    /* ========================================
+       SCANLINE EFFECT
+       ======================================== */
+    .scanlines {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(
+        to bottom,
+        transparent 50%,
+        rgba(0, 0, 0, 0.3) 51%
+      );
+      background-size: 100% 4px;
+      pointer-events: none;
+      z-index: 9998;
+      opacity: 0.15;
+    }
+
+    /* ========================================
+       TYPOGRAPHY
+       ======================================== */
+    h1, h2, h3, h4, h5, h6 {
+      font-family: var(--font-display);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+
+    .mono {
+      font-family: var(--font-mono);
+    }
+
+    .gradient-text {
+      background: linear-gradient(90deg, var(--neon-cyan), var(--neon-pink));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* ========================================
+       HEADER / NAV
+       ======================================== */
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1000;
+      background: rgba(10, 10, 15, 0.95);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border-glow);
+      box-shadow: var(--glow-cyan);
+    }
+
+    .nav-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: var(--neon-cyan);
+      text-shadow: var(--glow-cyan);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .logo-icon {
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(135deg, var(--neon-cyan), var(--neon-pink));
+      clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.8; transform: scale(1.05); }
+    }
+
+    nav ul {
+      display: flex;
+      list-style: none;
+      gap: 2rem;
+    }
+
+    nav a {
+      color: var(--text-primary);
+      text-decoration: none;
+      font-family: var(--font-display);
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      transition: all 0.3s ease;
+      position: relative;
+      padding: 0.5rem 0;
+    }
+
+    nav a::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--neon-cyan);
+      transition: width 0.3s ease;
+      box-shadow: var(--glow-cyan);
+    }
+
+    nav a:hover {
+      color: var(--neon-cyan);
+    }
+
+    nav a:hover::after {
+      width: 100%;
+    }
+
+    .mobile-menu-btn {
+      display: none;
+      background: none;
+      border: 1px solid var(--neon-cyan);
+      color: var(--neon-cyan);
+      padding: 0.5rem 1rem;
+      cursor: pointer;
+      font-family: var(--font-display);
+      text-transform: uppercase;
+    }
+
+    /* ========================================
+       HERO SECTION
+       ======================================== */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      background: radial-gradient(ellipse at center, rgba(0, 243, 255, 0.1) 0%, transparent 70%);
+      overflow: hidden;
+      padding-top: 80px;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%2300f3ff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+      opacity: 0.3;
+    }
+
+    .hero-content {
+      text-align: center;
+      z-index: 1;
+      max-width: 1200px;
+      padding: 2rem;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      padding: 0.5rem 1.5rem;
+      border: 1px solid var(--neon-green);
+      color: var(--neon-green);
+      font-family: var(--font-mono);
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-bottom: 2rem;
+      box-shadow: var(--glow-green);
+      animation: glitch 3s infinite;
+    }
+
+    @keyframes glitch {
+      0%, 100% { transform: translate(0); }
+      20% { transform: translate(-2px, 2px); }
+      40% { transform: translate(-2px, -2px); }
+      60% { transform: translate(2px, 2px); }
+      80% { transform: translate(2px, -2px); }
+    }
+
+    .hero h1 {
+      font-size: clamp(2.5rem, 6vw, 5rem);
+      font-weight: 900;
+      margin-bottom: 1rem;
+      text-shadow: var(--glow-cyan);
+      line-height: 1.1;
+    }
+
+    .hero-subtitle {
+      font-size: clamp(1.2rem, 3vw, 2rem);
+      color: var(--neon-pink);
+      margin-bottom: 2rem;
+      text-shadow: var(--glow-pink);
+      font-family: var(--font-mono);
+    }
+
+    .hero-quote {
+      font-size: clamp(1rem, 2vw, 1.5rem);
+      color: var(--text-secondary);
+      margin-bottom: 3rem;
+      font-style: italic;
+      border-left: 3px solid var(--neon-cyan);
+      padding-left: 1.5rem;
+      display: inline-block;
+    }
+
+    .hero-cta {
+      display: flex;
+      gap: 1.5rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      padding: 1rem 2.5rem;
+      font-family: var(--font-display);
+      font-size: 1rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      border: none;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--neon-cyan), var(--neon-blue));
+      color: var(--bg-dark);
+      box-shadow: var(--glow-cyan);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 0 20px rgba(0, 243, 255, 0.8), 0 0 40px rgba(0, 243, 255, 0.4);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--neon-cyan);
+      border: 2px solid var(--neon-cyan);
+      box-shadow: var(--glow-cyan);
+    }
+
+    .btn-secondary:hover {
+      background: var(--neon-cyan);
+      color: var(--bg-dark);
+      transform: translateY(-3px);
+    }
+
+    /* ========================================
+       SECTIONS GENERAL
+       ======================================== */
+    section {
+      padding: 6rem 2rem;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 4rem;
+    }
+
+    .section-header h2 {
+      font-size: clamp(2rem, 4vw, 3rem);
+      color: var(--neon-cyan);
+      text-shadow: var(--glow-cyan);
+      margin-bottom: 1rem;
+    }
+
+    .section-header p {
+      color: var(--text-secondary);
+      font-size: 1.2rem;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .divider {
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--neon-cyan), transparent);
+      margin: 2rem auto;
+      max-width: 600px;
+    }
+
+    /* ========================================
+       DOCTRINE SECTION
+       ======================================== */
+    .doctrine-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+    }
+
+    .doctrine-card {
+      background: var(--bg-panel);
+      border: 1px solid var(--border-glow);
+      border-radius: 10px;
+      padding: 2rem;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .doctrine-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background: linear-gradient(90deg, var(--neon-cyan), var(--neon-pink));
+    }
+
+    .doctrine-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--glow-cyan);
+      border-color: var(--neon-cyan);
+    }
+
+    .doctrine-icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+    }
+
+    .doctrine-card h3 {
+      color: var(--neon-cyan);
+      margin-bottom: 1rem;
+      font-size: 1.5rem;
+    }
+
+    .doctrine-card p {
+      color: var(--text-secondary);
+      margin-bottom: 1rem;
+    }
+
+    .doctrine-role {
+      font-family: var(--font-mono);
+      color: var(--neon-pink);
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    /* ========================================
+       AGENTS SECTION
+       ======================================== */
+    .agents-section {
+      background: var(--bg-darker);
+      position: relative;
+    }
+
+    .agents-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at 50% 50%, rgba(255, 0, 255, 0.05) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .agents-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 1.5rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .agent-card {
+      background: var(--bg-card);
+      border: 1px solid rgba(0, 243, 255, 0.2);
+      border-radius: 8px;
+      padding: 1.5rem;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .agent-card::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(90deg, var(--neon-cyan), var(--neon-pink));
+      transform: scaleX(0);
+      transition: transform 0.3s ease;
+    }
+
+    .agent-card:hover {
+      border-color: var(--neon-cyan);
+      box-shadow: 0 0 20px rgba(0, 243, 255, 0.2);
+      transform: translateY(-3px);
+    }
+
+    .agent-card:hover::after {
+      transform: scaleX(1);
+    }
+
+    .agent-number {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      font-family: var(--font-mono);
+      font-size: 2rem;
+      color: rgba(0, 243, 255, 0.1);
+      font-weight: 900;
+    }
+
+    .agent-name {
+      color: var(--neon-cyan);
+      font-size: 1.3rem;
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .agent-nickname {
+      color: var(--neon-pink);
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 1rem;
+    }
+
+    .agent-purpose {
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+      margin-bottom: 1rem;
+      line-height: 1.5;
+    }
+
+    .agent-stack {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: var(--neon-green);
+      background: rgba(0, 255, 65, 0.1);
+      padding: 0.5rem;
+      border-radius: 4px;
+      margin-bottom: 1rem;
+    }
+
+    .agent-formula {
+      font-style: italic;
+      color: var(--text-dim);
+      font-size: 0.9rem;
+      border-left: 2px solid var(--neon-yellow);
+      padding-left: 1rem;
+    }
+
+    .agent-vibe {
+      display: inline-block;
+      margin-top: 1rem;
+      padding: 0.3rem 0.8rem;
+      background: rgba(255, 0, 255, 0.1);
+      border: 1px solid rgba(255, 0, 255, 0.3);
+      border-radius: 20px;
+      font-size: 0.75rem;
+      color: var(--neon-pink);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    /* ========================================
+       MEMORY PROTOCOL SECTION
+       ======================================== */
+    .memory-section {
+      background: linear-gradient(180deg, var(--bg-dark) 0%, var(--bg-darker) 100%);
+    }
+
+    .memory-layers {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+    }
+
+    .memory-layer {
+      background: var(--bg-panel);
+      border: 1px solid var(--border-glow);
+      border-radius: 10px;
+      padding: 2rem;
+      text-align: center;
+      position: relative;
+    }
+
+    .memory-layer-icon {
+      font-size: 4rem;
+      margin-bottom: 1rem;
+      filter: drop-shadow(0 0 10px var(--neon-cyan));
+    }
+
+    .memory-layer h3 {
+      color: var(--neon-cyan);
+      margin-bottom: 1rem;
+    }
+
+    .memory-layer p {
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+    }
+
+    .memory-file {
+      font-family: var(--font-mono);
+      color: var(--neon-green);
+      background: rgba(0, 255, 65, 0.1);
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+      display: inline-block;
+      margin-top: 1rem;
+      font-size: 0.85rem;
+    }
+
+    /* ========================================
+       HEARTBEAT SECTION
+       ======================================== */
+    .heartbeat-section {
+      background: var(--bg-darker);
+      position: relative;
+    }
+
+    .heartbeat-diagram {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 2rem;
+      flex-wrap: wrap;
+      margin: 3rem 0;
+      position: relative;
+    }
+
+    .heartbeat-node {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      background: var(--bg-panel);
+      border: 2px solid var(--neon-cyan);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 1rem;
+      box-shadow: var(--glow-cyan);
+      animation: heartbeat 2s ease-in-out infinite;
+    }
+
+    @keyframes heartbeat {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.05); opacity: 0.9; }
+    }
+
+    .heartbeat-node:nth-child(2) {
+      animation-delay: 0.3s;
+      border-color: var(--neon-pink);
+      box-shadow: var(--glow-pink);
+    }
+
+    .heartbeat-node:nth-child(3) {
+      animation-delay: 0.6s;
+      border-color: var(--neon-green);
+      box-shadow: var(--glow-green);
+    }
+
+    .heartbeat-node-icon {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .heartbeat-node-label {
+      font-family: var(--font-display);
+      font-size: 0.8rem;
+      color: var(--neon-cyan);
+    }
+
+    .heartbeat-state {
+      font-family: var(--font-mono);
+      color: var(--neon-green);
+      background: rgba(0, 255, 65, 0.1);
+      padding: 1rem 2rem;
+      border-radius: 8px;
+      border: 1px solid var(--neon-green);
+      margin-top: 2rem;
+      text-align: center;
+    }
+
+    /* ========================================
+       SECURITY SECTION
+       ======================================== */
+    .security-section {
+      background: linear-gradient(135deg, rgba(255, 49, 49, 0.05) 0%, transparent 100%);
+      border: 1px solid rgba(255, 49, 49, 0.2);
+      border-radius: 15px;
+      padding: 3rem;
+      margin: 4rem 0;
+    }
+
+    .security-warning {
+      display: flex;
+      align-items: flex-start;
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .security-icon {
+      font-size: 3rem;
+      color: var(--neon-red);
+      flex-shrink: 0;
+    }
+
+    .security-warning h3 {
+      color: var(--neon-red);
+      margin-bottom: 0.5rem;
+    }
+
+    .security-warning p {
+      color: var(--text-secondary);
+    }
+
+    .security-list {
+      list-style: none;
+    }
+
+    .security-list li {
+      padding: 1rem 0;
+      border-bottom: 1px solid rgba(255, 49, 49, 0.2);
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+
+    .security-list li:last-child {
+      border-bottom: none;
+    }
+
+    .security-list li::before {
+      content: '⚠';
+      color: var(--neon-red);
+      font-size: 1.2rem;
+    }
+
+    /* ========================================
+       FOOTER
+       ======================================== */
+    footer {
+      background: var(--bg-darker);
+      border-top: 1px solid var(--border-glow);
+      padding: 4rem 2rem 2rem;
+      position: relative;
+    }
+
+    .footer-content {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 3rem;
+    }
+
+    .footer-brand h3 {
+      color: var(--neon-cyan);
+      margin-bottom: 1rem;
+      font-size: 1.5rem;
+    }
+
+    .footer-brand p {
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+    }
+
+    .footer-links h4 {
+      color: var(--neon-pink);
+      margin-bottom: 1rem;
+      font-size: 1rem;
+    }
+
+    .footer-links ul {
+      list-style: none;
+    }
+
+    .footer-links li {
+      margin-bottom: 0.5rem;
+    }
+
+    .footer-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    .footer-links a:hover {
+      color: var(--neon-cyan);
+    }
+
+    .footer-bottom {
+      max-width: 1400px;
+      margin: 3rem auto 0;
+      padding-top: 2rem;
+      border-top: 1px solid rgba(0, 243, 255, 0.1);
+      text-align: center;
+      color: var(--text-dim);
+      font-size: 0.9rem;
+    }
+
+    .footer-mantra {
+      font-family: var(--font-display);
+      color: var(--neon-cyan);
+      font-size: 1.2rem;
+      margin-bottom: 1rem;
+      text-shadow: var(--glow-cyan);
+    }
+
+    /* ========================================
+       RESPONSIVE
+       ======================================== */
+    @media (max-width: 768px) {
+      nav ul {
+        display: none;
+      }
+
+      .mobile-menu-btn {
+        display: block;
+      }
+
+      .hero h1 {
+        font-size: 2rem;
+      }
+
+      .hero-subtitle {
+        font-size: 1.2rem;
+      }
+
+      .hero-cta {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .doctrine-grid,
+      .memory-layers {
+        grid-template-columns: 1fr;
+      }
+
+      .heartbeat-diagram {
+        flex-direction: column;
+      }
+
+      .security-section {
+        padding: 2rem 1rem;
+      }
+
+      .footer-content {
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
+    }
+
+    /* ========================================
+       SCROLL INDICATOR
+       ======================================== */
+    .scroll-indicator {
+      position: absolute;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--text-dim);
+      font-size: 0.8rem;
+      animation: bounce 2s infinite;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50% { transform: translateX(-50%) translateY(10px); }
+    }
+
+    .scroll-arrow {
+      width: 20px;
+      height: 20px;
+      border-right: 2px solid var(--neon-cyan);
+      border-bottom: 2px solid var(--neon-cyan);
+      transform: rotate(45deg);
+    }
+  </style>
+</head>
+<body>
+  <div class="scanlines"></div>
+
+  <!-- Header Navigation -->
+  <header>
+    <div class="nav-container">
+      <div class="logo">
+        <div class="logo-icon"></div>
+        ANTIGRAVITY
+      </div>
+      <nav>
+        <ul>
+          <li><a href="#doctrina">Doctrina</a></li>
+          <li><a href="#agentes">Agentes</a></li>
+          <li><a href="#memoria">Memoria</a></li>
+          <li><a href="#heartbeat">Heartbeat</a></li>
+          <li><a href="#seguridad">Seguridad</a></li>
+        </ul>
+      </nav>
+      <button class="mobile-menu-btn">☰ Menú</button>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-content">
+      <div class="hero-badge">Sistema Operativo V2.0</div>
+      <h1 class="gradient-text">ECOSISTEMA ANTIGRAVITY</h1>
+      <div class="hero-subtitle">& ORQUESTA ROJA</div>
+      <div class="hero-quote">
+        "La organización es la clave de la victoria.<br>
+        La soberanía digital es el fin." ✊
+      </div>
+      <div class="hero-cta">
+        <a href="#agentes" class="btn btn-primary">Explorar Agentes</a>
+        <a href="#doctrina" class="btn btn-secondary">Conocer Doctrina</a>
+      </div>
+    </div>
+    <div class="scroll-indicator">
+      <span>SCROLL</span>
+      <div class="scroll-arrow"></div>
+    </div>
+  </section>
+
+  <!-- Doctrine Section -->
+  <section id="doctrina">
+    <div class="section-header">
+      <h2>DOCTRINA OPERATIVA</h2>
+      <div class="divider"></div>
+      <p>Modelo híbrido de control que separa capacidades cognitivas de ejecución en disco</p>
+    </div>
+
+    <div class="doctrine-grid">
+      <div class="doctrine-card">
+        <div class="doctrine-icon">🧠</div>
+        <h3>ANTIGRAVITY</h3>
+        <div class="doctrine-role">El Cerebro</div>
+        <p>Orquestación semántica, planificación de tareas complejas, redacción premium y toma de decisiones.</p>
+        <p class="mono" style="color: var(--neon-green); margin-top: 1rem;">
+          > Regla de Oro: Silencio táctico<br>
+          > Delegar micro-gestión técnica<br>
+          > Mantener visión comercial
+        </p>
+      </div>
+
+      <div class="doctrine-card">
+        <div class="doctrine-icon">🦾</div>
+        <h3>CLAWDBOT</h3>
+        <div class="doctrine-role">Las Manos</div>
+        <p>Ejecución cruda en Powershell, indexado de archivos, manipulación de dependencias locales y sincronización remota.</p>
+        <p class="mono" style="color: var(--neon-pink); margin-top: 1rem;">
+          > Ejecución directa<br>
+          > Manipulación filesystem<br>
+          > APIs locales
+        </p>
+      </div>
+
+      <div class="doctrine-card">
+        <div class="doctrine-icon">👤</div>
+        <h3>JUAN PABLO</h3>
+        <div class="doctrine-role">El Comandante</div>
+        <p>Liderazgo estratégico, dirección de alto nivel y supervisión del ecosistema completo.</p>
+        <p class="mono" style="color: var(--neon-yellow); margin-top: 1rem;">
+          > Visión estratégica<br>
+          > Decisiones críticas<br>
+          > Comando supremo
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Agents Section -->
+  <section id="agentes" class="agents-section">
+    <div class="section-header">
+      <h2>ORQUESTA ROJA</h2>
+      <div class="divider"></div>
+      <p>14 unidades tácticas especializadas operando en sincronía perfecta</p>
+    </div>
+
+    <div class="agents-grid">
+      <!-- Agente 1: Rojo -->
+      <div class="agent-card">
+        <div class="agent-number">01</div>
+        <div class="agent-name">✊ ROJO</div>
+        <div class="agent-nickname">Fidel — El Director</div>
+        <p class="agent-purpose">Interceptor de mensajes y delegador supremo. Filtra el ruido e invoca al especialista adecuado.</p>
+        <div class="agent-stack">Node.js • WhatsApp Web Client • SMTP</div>
+        <div class="agent-formula">"Rojo, delega a Stalin la sanitización de los últimos documentos."</div>
+        <div class="agent-vibe">Líder revolucionario</div>
+      </div>
+
+      <!-- Agente 2: Gramsci -->
+      <div class="agent-card">
+        <div class="agent-number">02</div>
+        <div class="agent-name">📊 GRAMSCI</div>
+        <div class="agent-nickname">El Analista Curricular</div>
+        <p class="agent-purpose">Analiza la nube escolar de Drive versus contenido local para detectar vacíos de cobertura.</p>
+        <div class="agent-stack">Node.js • Google Drive API • JSON Database</div>
+        <div class="agent-formula">"Gramsci, escanea el Drive y repórtame qué unidades faltan."</div>
+        <div class="agent-vibe">Teórico analítico</div>
+      </div>
+
+      <!-- Agente 3: Stalin -->
+      <div class="agent-card">
+        <div class="agent-number">03</div>
+        <div class="agent-name">🛡️ STALIN</div>
+        <div class="agent-nickname">Custodio — El Limpiador</div>
+        <p class="agent-purpose">Sanitiza archivos Word de metadatos, marcas de revisión, comentarios y nombres reales.</p>
+        <div class="agent-stack">Node.js • python-docx • adm-zip • XML Parser</div>
+        <div class="agent-formula">"Che, unifica la prueba en su versión LIMPIA y solucionario."</div>
+        <div class="agent-vibe">Meticuloso protector</div>
+      </div>
+
+      <!-- Agente 4: Che Guevara -->
+      <div class="agent-card">
+        <div class="agent-number">04</div>
+        <div class="agent-name">🍎 CHE GUEVARA</div>
+        <div class="agent-nickname">El Pedagogo</div>
+        <p class="agent-purpose">Transforma planificaciones crudas de Mineduc en guías de aprendizaje DUA altamente didácticas.</p>
+        <div class="agent-stack">Node.js • OpenAI API • Markdown</div>
+        <div class="agent-formula">"Che, diseña la guía del estudiante con estrategias DUA."</div>
+        <div class="agent-vibe">Pedagogo riguroso</div>
+      </div>
+
+      <!-- Agente 5: Lenin -->
+      <div class="agent-card">
+        <div class="agent-number">05</div>
+        <div class="agent-name">🚀 LENIN</div>
+        <div class="agent-nickname">El Publicador</div>
+        <p class="agent-purpose">Sube material educativo a ProfeSocial de manera masiva y automatizada con SEO optimizado.</p>
+        <div class="agent-stack">Playwright • Puppeteer • Node.js</div>
+        <div class="agent-formula">"Lenin, sube las evaluaciones a 6 ProfeCoins con tags."</div>
+        <div class="agent-vibe">Revolucionario e-commerce</div>
+      </div>
+
+      <!-- Agente 6: Putin -->
+      <div class="agent-card">
+        <div class="agent-number">06</div>
+        <div class="agent-name">📧 PUTIN</div>
+        <div class="agent-nickname">Nexo — Inteligencia</div>
+        <p class="agent-purpose">Escanea bandeja de entrada buscando ventas de ProfeSocial y alertas críticas de colegios.</p>
+        <div class="agent-stack">imapflow • mailparser • nodemailer</div>
+        <div class="agent-formula">"Putin, revisa el inbox y prepárame borradores de respuesta."</div>
+        <div class="agent-vibe">Frío y eficiente</div>
+      </div>
+
+      <!-- Agente 7: Pepe Mujica -->
+      <div class="agent-card">
+        <div class="agent-number">07</div>
+        <div class="agent-name">🕊️ PEPE MUJICA</div>
+        <div class="agent-nickname">El Diplomático</div>
+        <p class="agent-purpose">Humaniza escritos rígidos, redacta cartas difíciles y media conflictos con persuasión.</p>
+        <div class="agent-stack">Node.js • Gemini API</div>
+        <div class="agent-formula">"Pepe, redacta una carta al director con tu estilo humilde."</div>
+        <div class="agent-vibe">Sabio y empático</div>
+      </div>
+
+      <!-- Agente 8: Gladys Marín -->
+      <div class="agent-card">
+        <div class="agent-number">08</div>
+        <div class="agent-name">🔍 GLADYS MARÍN</div>
+        <div class="agent-nickname">La Investigadora Rebelde</div>
+        <p class="agent-purpose">Escanea bases legales, circulares y reglamentos RICE para producir guiones y reportes.</p>
+        <div class="agent-stack">Ripgrep • PDF Parsing • Web Search</div>
+        <div class="agent-formula">"Gladys, investiga el último dictamen RICE y arma un resumen."</div>
+        <div class="agent-vibe">Combativa incansable</div>
+      </div>
+
+      <!-- Agente 9: Allende -->
+      <div class="agent-card">
+        <div class="agent-number">09</div>
+        <div class="agent-name">🤝 ALLENDE</div>
+        <div class="agent-nickname">Soporte Comunitario</div>
+        <p class="agent-purpose">Administra atención al cliente y soporte técnico. Resuelve problemas de descarga en Drive.</p>
+        <div class="agent-stack">Node.js • Google Sheets API • Gmail Client</div>
+        <div class="agent-formula">"Allende, responde a profesores que no pudieron descargar."</div>
+        <div class="agent-vibe">Comprometido empático</div>
+      </div>
+
+      <!-- Agente 10: Xi Jinping -->
+      <div class="agent-card">
+        <div class="agent-number">10</div>
+        <div class="agent-name">🧾 XI JINPING</div>
+        <div class="agent-nickname">Gestor Financiero</div>
+        <p class="agent-purpose">Procesa boletas con OCR, organiza archivos mensuales y registra balances contables.</p>
+        <div class="agent-stack">Python • Tesseract OCR • openpyxl</div>
+        <div class="agent-formula">"Xi, procesa esta boleta y regístrala en contabilidad."</div>
+        <div class="agent-vibe">Disciplinado matemático</div>
+      </div>
+
+      <!-- Agente 11: Chávez -->
+      <div class="agent-card">
+        <div class="agent-number">11</div>
+        <div class="agent-name">📢 CHÁVEZ</div>
+        <div class="agent-nickname">Orador de Marketing</div>
+        <p class="agent-purpose">Maneja campañas de redes sociales, automatiza Meta Business y programa posteos.</p>
+        <div class="agent-stack">Puppeteer • Meta Business API</div>
+        <div class="agent-formula">"Chávez, planifica la campaña y prográmala en Meta."</div>
+        <div class="agent-vibe">Apasionado comunicador</div>
+      </div>
+
+      <!-- Agente 12: Mao -->
+      <div class="agent-card">
+        <div class="agent-number">12</div>
+        <div class="agent-name">📝 MAO</div>
+        <div class="agent-nickname">Arquitecto de Encuestas</div>
+        <p class="agent-purpose">Crea formularios interactivos de diagnóstico psicopedagógico y genera dashboards visuales.</p>
+        <div class="agent-stack">React • Tailwind CSS • JSON DB</div>
+        <div class="agent-formula">"Mao, crea la encuesta socioemocional 2026."</div>
+        <div class="agent-vibe">Centrado en las masas</div>
+      </div>
+
+      <!-- Agente 13: Leo -->
+      <div class="agent-card">
+        <div class="agent-number">13</div>
+        <div class="agent-name">🎮 LEO</div>
+        <div class="agent-nickname">Diseñador de Gamificación</div>
+        <p class="agent-purpose">Framework narrativo de videojuegos educativos con mecánicas premium de exploración.</p>
+        <div class="agent-stack">React • GSAP • SVG</div>
+        <div class="agent-formula">"Leo, genera componentes visuales para el mapa de Chile."</div>
+        <div class="agent-vibe">Creador inmersivo</div>
+      </div>
+
+      <!-- Agente 14: Keynote -->
+      <div class="agent-card">
+        <div class="agent-number">14</div>
+        <div class="agent-name">📊 KEYNOTE</div>
+        <div class="agent-nickname">Presentador PowerPoint</div>
+        <p class="agent-purpose">Genera presentaciones DUA programáticamente y ejecuta PowerPoint nativo en Windows.</p>
+        <div class="agent-stack">Node.js • pptxgenjs • Python pywin32 COM</div>
+        <div class="agent-formula">"Keynote, genera la presentación de Revolución Industrial."</div>
+        <div class="agent-vibe">Orador corporativo</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Memory Protocol Section -->
+  <section id="memoria" class="memory-section">
+    <div class="section-header">
+      <h2>PROTOCOLO DE MEMORIA ACTIVA</h2>
+      <div class="divider"></div>
+      <p>Lo que no está escrito en un archivo, no existe</p>
+    </div>
+
+    <div class="memory-layers">
+      <div class="memory-layer">
+        <div class="memory-layer-icon">📝</div>
+        <h3>Notas Diarias</h3>
+        <p>Registros en caliente del trabajo realizado en cada sesión</p>
+        <div class="memory-file">memory/YYYY-MM-DD.md</div>
+      </div>
+
+      <div class="memory-layer">
+        <div class="memory-layer-icon">📚</div>
+        <h3>Memoria Curada</h3>
+        <p>Destilación a largo plazo de rutas, APIs y precios estándar</p>
+        <div class="memory-file">MEMORY.md</div>
+      </div>
+
+      <div class="memory-layer">
+        <div class="memory-layer-icon">🆔</div>
+        <h3>Fichas Técnicas</h3>
+        <p>Propósito y temperamento de cada agente especializado</p>
+        <div class="memory-file">IDENTITY.md / SOUL.md</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Heartbeat Section -->
+  <section id="heartbeat" class="heartbeat-section">
+    <div class="section-header">
+      <h2>CICLO DE HEARTBEATS</h2>
+      <div class="divider"></div>
+      <p>Latidos periódicos autónomos cada 30 minutos</p>
+    </div>
+
+    <div class="heartbeat-diagram">
+      <div class="heartbeat-node">
+        <div class="heartbeat-node-icon">🤝</div>
+        <div class="heartbeat-node-label">ALLENDE<br>CRM</div>
+      </div>
+      <div class="heartbeat-node">
+        <div class="heartbeat-node-icon">📧</div>
+        <div class="heartbeat-node-label">PUTIN<br>NEXO</div>
+      </div>
+      <div class="heartbeat-node">
+        <div class="heartbeat-node-icon">✊</div>
+        <div class="heartbeat-node-label">ROJO<br>ORQUESTADOR</div>
+      </div>
+    </div>
+
+    <div class="heartbeat-state mono">
+      📊 Estado: memory/heartbeat-state.json<br>
+      ⏱️ Intervalo: 30 minutos<br>
+      ✅ Monitoreo: Bandeja, Ventas, Sincronización Sheets
+    </div>
+  </section>
+
+  <!-- Security Section -->
+  <section id="seguridad">
+    <div class="section-header">
+      <h2>DIRECTRICES DE SEGURIDAD</h2>
+      <div class="divider"></div>
+      <p>Políticas defensivas para proteger la infraestructura</p>
+    </div>
+
+    <div class="security-section">
+      <div class="security-warning">
+        <div class="security-icon">⛔</div>
+        <div>
+          <h3>DESTRUCCIÓN PERMANENTE PROHIBIDA</h3>
+          <p>Queda estrictamente prohibido el uso del comando <code class="mono">rm</code> en Powershell</p>
+        </div>
+      </div>
+
+      <ul class="security-list">
+        <li>
+          <div>
+            <strong class="mono" style="color: var(--neon-green);">Alternativa Obligatoria:</strong>
+            <p style="color: var(--text-secondary); margin-top: 0.5rem;">Utilizar la papelera de reciclaje local (trash) para que todo borrado sea reversible</p>
+          </div>
+        </li>
+        <li>
+          <div>
+            <strong class="mono" style="color: var(--neon-yellow);">Despliegues en Producción:</strong>
+            <p style="color: var(--text-secondary); margin-top: 0.5rem;">Jamás exfiltrar variables de entorno .env ni credenciales de Google Sheets/Drive en repositorios públicos</p>
+          </div>
+        </li>
+        <li>
+          <div>
+            <strong class="mono" style="color: var(--neon-cyan);">Respaldo Histórico:</strong>
+            <p style="color: var(--text-secondary); margin-top: 0.5rem;">Este manifiesto asegura que cualquier reinicio mantenga la alineación ideológica, técnica y metodológica</p>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-content">
+      <div class="footer-brand">
+        <h3>ANTIGRAVITY V2</h3>
+        <p>Ecosistema de inteligencia artificial soberana para educación y gestión documental.</p>
+        <p style="margin-top: 1rem; color: var(--text-dim); font-size: 0.85rem;">
+          Arquitectura diseñada y comandada por Juan Pablo
+        </p>
+      </div>
+
+      <div class="footer-links">
+        <h4>NAVEGACIÓN</h4>
+        <ul>
+          <li><a href="#doctrina">Doctrina Operativa</a></li>
+          <li><a href="#agentes">Orquesta Roja</a></li>
+          <li><a href="#memoria">Protocolo Memoria</a></li>
+          <li><a href="#heartbeat">Ciclo Heartbeats</a></li>
+          <li><a href="#seguridad">Seguridad</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-links">
+        <h4>AGENTES PRINCIPALES</h4>
+        <ul>
+          <li><a href="#agentes">✊ Rojo — Director</a></li>
+          <li><a href="#agentes">🍎 Che Guevara — Pedagogo</a></li>
+          <li><a href="#agentes">🚀 Lenin — Publicador</a></li>
+          <li><a href="#agentes">📧 Putin — Inteligencia</a></li>
+          <li><a href="#agentes">🤝 Allende — CRM</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-links">
+        <h4>RECURSOS</h4>
+        <ul>
+          <li><a href="#">Documentación Técnica</a></li>
+          <li><a href="#">Guía de Inducción</a></li>
+          <li><a href="#">API Reference</a></li>
+          <li><a href="#">Memory Protocol</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div class="footer-mantra">"HASTA LA VICTORIA SIEMPRE. VENCEREMOS." ✊</div>
+      <p>© 2024 Antigravity Ecosystem. Soberanía Digital & Inteligencia Artificial Educativa.</p>
+      <p style="margin-top: 0.5rem; font-size: 0.8rem;">Manifiesto Técnico V2 — Orquesta Roja</p>
+    </div>
+  </footer>
+
+  <script>
+    // Smooth scroll for navigation links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+          });
+        }
+      });
+    });
+
+    // Mobile menu toggle
+    const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+    const nav = document.querySelector('nav ul');
+    
+    mobileMenuBtn.addEventListener('click', () => {
+      nav.style.display = nav.style.display === 'flex' ? 'none' : 'flex';
+      if (nav.style.display === 'flex') {
+        nav.style.flexDirection = 'column';
+        nav.style.position = 'absolute';
+        nav.style.top = '100%';
+        nav.style.left = '0';
+        nav.style.width = '100%';
+        nav.style.background = 'rgba(10, 10, 15, 0.98)';
+        nav.style.padding = '1rem';
+        nav.style.borderBottom = '1px solid var(--border-glow)';
+      }
+    });
+
+    // Intersection Observer for fade-in animations
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = '1';
+          entry.target.style.transform = 'translateY(0)';
+        }
+      });
+    }, observerOptions);
+
+    // Apply initial styles and observe elements
+    document.querySelectorAll('.agent-card, .doctrine-card, .memory-layer').forEach(el => {
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(30px)';
+      el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+      observer.observe(el);
+    });
+
+    // Dynamic year in footer
+    document.querySelector('.footer-bottom p').innerHTML = 
+      `© ${new Date().getFullYear()} Antigravity Ecosystem. Soberanía Digital & Inteligencia Artificial Educativa.`;
+
+    // Console easter egg
+    console.log('%c ANTIGRAVITY V2 — ORQUESTA ROJA ', 'background: linear-gradient(135deg, #00f3ff, #ff00ff); color: #0a0a0f; font-size: 20px; font-weight: bold; padding: 10px 20px;');
+    console.log('%c "La organización es la clave de la victoria. La soberanía digital es el fin." ✊ ', 'color: #00ff41; font-size: 14px; font-family: monospace; padding: 10px;');
+    console.log('%c Hasta la victoria siempre. Venceremos. ', 'color: #ff3131; font-size: 14px; font-weight: bold;');
+  </script>
+</body>
+</html>
